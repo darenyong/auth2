@@ -10,4 +10,4 @@ docker run -d --name auth \
   --network proxy \
   -e "NODE_ENV=development" \
   -v ${PWD}/log:/usr/src/app/log:Z \
-  auth:1.0.0
+  auth2:1.0.0
