@@ -1,0 +1,5 @@
+node_modules
+secret-key
+.DS_Store
+.idea
+log
