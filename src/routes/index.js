@@ -38,7 +38,7 @@ router.get('/login', function (req, res, next) {
   res.send('login');
 });
 
-// home page - all auth requests land here
+// home page - all auth requests land here.  WARNING: /auth prefix is stripped from x-forwarded-uri
 router.get('/', function (req, res, next) {
   try {
     const proto = req.get('x-forwarded-proto'); // http
@@ -47,7 +47,7 @@ router.get('/', function (req, res, next) {
 
     log.warn(`dest ${dest}`);
 
-    if (!dest || _.isString(dest) && (dest === '/' || dest.startsWith('/auth'))) {
+    if (!dest || _.isString(dest) && (dest === '/' || dest.startsWith('/login'))) {
       log.info(`bypass security for url ${dest}`);
       res.send('bypass'); // bypass security for any request to /auth...
       return;
