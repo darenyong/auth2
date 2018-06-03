@@ -45,6 +45,8 @@ router.get('/', function (req, res, next) {
     const host = req.get('x-forwarded-host');   // localhost:8080
     const dest = req.get('x-forwarded-uri');    // '/'
 
+    log.warn(`dest ${dest}`);
+
     if (!dest || _.isString(dest) && (dest === '/' || dest.startsWith('/auth'))) {
       log.info(`bypass security for url ${dest}`);
       res.send('bypass'); // bypass security for any request to /auth...
