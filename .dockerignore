@@ -1,0 +1,8 @@
+README.md
+.git/
+.gitignore
+node_modules
+log
+src/client
+*.sh
+webpack.config.js
