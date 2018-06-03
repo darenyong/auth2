@@ -45,9 +45,8 @@ router.get('/', function (req, res, next) {
     const host = req.get('x-forwarded-host');   // localhost:8080
     const dest = req.get('x-forwarded-uri');    // '/'
 
-    console.log('x-forwarded-uri', dest);
-
     if (!dest || _.isString(dest) && (dest === '/' || dest.startsWith('/auth'))) {
+      log.info(`bypass security for url ${dest}`);
       res.send('bypass'); // bypass security for any request to /auth...
       return;
     }
@@ -72,7 +71,7 @@ router.get('/', function (req, res, next) {
     log.info('no cookie or invalid cookie, force login');
     const app = _.defaultTo(dest, '').split('/')[1];
     const url = createLoginUrl(proto, host, app, createRedirectUrl(proto, host, dest));
-    log.debug('login-page url', url);
+    log.debug(`login-page url ${url}`);
     res.redirect(url);
 
   } catch (err) {
