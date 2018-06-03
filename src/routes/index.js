@@ -7,28 +7,33 @@ import querystring from 'querystring';
 const router = express.Router();
 
 // needed to sign JWT
-const secretKey = fs.readFileSync(path.join(__dirname, '..', '..', 'secret-key'), 'utf-8');
+const keys = {
+  private: fs.readFileSync(path.join(__dirname, '..', '..', 'private.pem'), 'utf-8'),
+  public: fs.readFileSync(path.join(__dirname, '..', '..', 'public.pem'), 'utf-8')
+};
 
 const cookieName = 'daren-auth-token';
+const cookieDomain = '.darenyong.com';
 
 const setCookie = (res, token) => {
   const secure = false;
   const maxAge = 60000;
   const httpOnly = false;
-  res.cookie(cookieName, token, { secure, maxAge, httpOnly });
+  res.cookie(cookieName, token, { /* cookieDomain, */ secure, maxAge, httpOnly });
 };
 
-const createLoginUrl = (database) => `http://localhost:8080/login?database=${database}`;
+const createLoginUrl = (app) => `http://localhost:8080/login-page?app=${app}`;
+
 
 router.get('/login', function (req, res, next) {
   const queryPart = req.originalUrl.substring(req.originalUrl.indexOf('?') + 1);
   const parsed = querystring.parse(queryPart);
 
-  console.log('login database', parsed.database);
+  console.log('login database', parsed.app);
 
   // TODO: connect to mongo, check if db exists, check user & password, set-cookie with signed JWT with roles
 
-  res.json({msg: 'login page goes here'});
+  res.send('login');
 });
 
 // home page - all auth requests land here
@@ -63,8 +68,8 @@ router.get('/', function (req, res, next) {
     }
 
     log.info('no cookie or invalid cookie, force login');
-    const database = dest.split('/')[1];
-    res.redirect(createLoginUrl(database));
+    const app = dest.split('/')[1];
+    res.redirect(createLoginUrl(app));
 
   } catch (err) {
     log.error(`error checking for cookie ${err.stack}`);

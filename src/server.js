@@ -1,6 +1,7 @@
+import path from 'path';
+import _ from 'lodash';
 import express from 'express';
 import cookieParser from 'cookie-parser';
-import _ from 'lodash';
 import routes from './routes';
 
 const notFound = function (req, res, next) {
@@ -36,6 +37,9 @@ module.exports = class Server {
     this.app = express();
     this.app.use(cookieParser());
     this.app.set('json spaces', 2);
+
+    // serve login page
+    this.app.use('/login-page', express.static(path.join(__dirname, '..', 'dist')));
 
     // setup routes
     this.app.use('/', routes);
