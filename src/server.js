@@ -4,6 +4,9 @@ import express from 'express';
 import cookieParser from 'cookie-parser';
 import routes from './routes';
 
+// track connections so we can close them when server gets shutdown signal
+const connections = [];
+
 const notFound = function (req, res, next) {
   const url = decodeURI(req.url);
   const query = JSON.stringify(req.query);
@@ -59,6 +62,17 @@ module.exports = class Server {
     log.info(`server listening port: ${this.listenPort}`);
     this.server = this.app.listen(this.listenPort);
 
+    // track connections, remove them from array on close
+    this.server.on('connection', connection => {
+      connections.push(connection);
+      connection.on('close', () => {
+        const index = connections.indexOf(connection);
+        if (index > -1) {
+          connections.splice(index, 1);
+        }
+      });
+    });
+
     // hook process signals for graceful express shutdown
     this.sigint = _.partial(this.gracefulShutdown, 'SIGINT');
     this.sigterm = _.partial(this.gracefulShutdown, 'SIGTERM');
@@ -82,7 +96,8 @@ module.exports = class Server {
   }
 
   gracefulShutdown(signal) {
-    log.warn(`graceful shutdown initiated ${signal}`);
+    log.warn(`graceful shutdown initiated ${signal}, destroying all connections`);
+    connections.forEach(c => c.destroy());
     this.server.close(() => {
       // NOTE: 2018-06-02 DJY - due to issues with winston flushing, this last message may appear in console, but not file
       log.warn(`express stopped gracefully, exiting process now ${signal}`);

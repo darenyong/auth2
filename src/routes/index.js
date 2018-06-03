@@ -70,7 +70,7 @@ router.get('/', function (req, res, next) {
     }
 
     log.info('no cookie or invalid cookie, force login');
-    const app = dest.split('/')[1];
+    const app = _.defaultTo(dest, '').split('/')[1];
     res.redirect(createLoginUrl(app, createRedirectUrl(proto, host, dest)));
 
   } catch (err) {

@@ -5,7 +5,7 @@ so that authentication is (mostly) abstracted away from api.
 
 Backend api will need to verify token, check user role.
 
-#### Generating keys
+## Generating keys
 
 Run ssh-keygen, it will prompt for output file name
 > ssh-keygen
