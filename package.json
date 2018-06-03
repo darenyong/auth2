@@ -10,9 +10,11 @@
     "babel-preset-env": "^1.7.0",
     "babel-preset-react": "^6.24.1",
     "babel-register": "^6.26.0",
+    "clean-webpack-plugin": "^0.1.19",
     "config": "^1.30.0",
     "cookie-parser": "^1.4.3",
     "express": "^4.16.2",
+    "file-loader": "^1.1.11",
     "lodash": "^4.17.5",
     "moment-timezone": "^0.5.14",
     "webpack": "^4.10.2",
@@ -25,7 +27,9 @@
     "start": "node ./src/app.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "webpack --mode development",
-    "build-prod": "webpack --mode production"
+    "build-prod": "webpack --mode production",
+    "dev": "npm run build && npm start",
+    "prod": "npm run build-prod && npm start"
   },
   "repository": {
     "type": "git",
