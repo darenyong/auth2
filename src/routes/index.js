@@ -22,7 +22,8 @@ const setCookie = (res, token) => {
   res.cookie(cookieName, token, { /* cookieDomain, */ secure, maxAge, httpOnly });
 };
 
-const createLoginUrl = (app) => `http://localhost:8080/login-page?app=${app}`;
+const createRedirectUrl = (proto, host, url) => encodeURIComponent(`${proto}://${host}${url}`);
+const createLoginUrl = (app, redirect) => `http://localhost:8080/login-page?app=${app}&redirect=${redirect}`;
 
 
 router.get('/login', function (req, res, next) {
@@ -30,6 +31,7 @@ router.get('/login', function (req, res, next) {
   const parsed = querystring.parse(queryPart);
 
   console.log('login database', parsed.app);
+  console.log('redirect target', decodeURIComponent(parsed.redirect));
 
   // TODO: connect to mongo, check if db exists, check user & password, set-cookie with signed JWT with roles
 
@@ -69,7 +71,7 @@ router.get('/', function (req, res, next) {
 
     log.info('no cookie or invalid cookie, force login');
     const app = dest.split('/')[1];
-    res.redirect(createLoginUrl(app));
+    res.redirect(createLoginUrl(app, createRedirectUrl(proto, host, dest)));
 
   } catch (err) {
     log.error(`error checking for cookie ${err.stack}`);
