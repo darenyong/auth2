@@ -2,6 +2,7 @@ import _ from 'lodash';
 import express from 'express';
 import fs from 'fs';
 import path from 'path';
+import querystring from 'querystring';
 
 const router = express.Router();
 
@@ -17,9 +18,16 @@ const setCookie = (res, token) => {
   res.cookie(cookieName, token, { secure, maxAge, httpOnly });
 };
 
-const createLoginUrl = () => 'http://localhost:8080/login';
+const createLoginUrl = (database) => `http://localhost:8080/login?database=${database}`;
 
 router.get('/login', function (req, res, next) {
+  const queryPart = req.originalUrl.substring(req.originalUrl.indexOf('?') + 1);
+  const parsed = querystring.parse(queryPart);
+
+  console.log('login database', parsed.database);
+
+  // TODO: connect to mongo, check if db exists, check user & password, set-cookie with signed JWT with roles
+
   res.json({msg: 'login page goes here'});
 });
 
@@ -30,30 +38,33 @@ router.get('/', function (req, res, next) {
     const host = req.get('x-forwarded-host');   // localhost:8080
     const dest = req.get('x-forwarded-uri');    // '/'
 
-    if (_.isString(dest) && dest.startsWith('/auth')) {
-      res.send('ok'); // bypass security for any request to /auth/...
+    console.log('x-forwarded-uri', dest);
+
+    if (!dest || _.isString(dest) && (dest === '/' || dest.startsWith('/auth'))) {
+      res.send('bypass'); // bypass security for any request to /auth...
       return;
     }
 
     const cookie = req.cookies[cookieName];
-    log.info(`lg msg cookie is '${cookie}'`);
-
     if (cookie) { // validate the cookie
-      const expired = false;
-      if (expired) {
-        // TODO: renew
-      }
       // TODO: verify cookie
       const validCookie = true;
       if (validCookie) {
-        log.info('cookie present and ok, auth success');
-        res.send('cookie present and ok, auth success');
+
+        const expired = false;
+        if (expired) {
+          // TODO: renew
+        }
+
+        log.info('auth success');
+        res.send('auth success');
         return;
       }
     }
 
     log.info('no cookie or invalid cookie, force login');
-    res.redirect(createLoginUrl());
+    const database = dest.split('/')[1];
+    res.redirect(createLoginUrl(database));
 
   } catch (err) {
     log.error(`error checking for cookie ${err.stack}`);

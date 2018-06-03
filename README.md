@@ -5,6 +5,14 @@ so that authentication is (mostly) abstracted away from api.
 
 Backend api will need to verify token, check user role.
 
+#### Generating keys
+
+Run ssh-keygen, it will prompt for output file name
+> ssh-keygen
+
+Convert public key to pem format
+> ssh-keygen -f /path/to/public.pub -e -m pem > /path/to/public.pem
+
 ## Warning
 
 When an app relies on Auth service, it should make sure
