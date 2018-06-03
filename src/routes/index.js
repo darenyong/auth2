@@ -23,7 +23,7 @@ const setCookie = (res, token) => {
 };
 
 const createRedirectUrl = (proto, host, url) => encodeURIComponent(`${proto}://${host}${url}`);
-const createLoginUrl = (app, redirect) => `http://localhost:8080/login-page?app=${app}&redirect=${redirect}`;
+const createLoginUrl = (app, redirect) => `/login-page?app=${app}&redirect=${redirect}`;
 
 
 router.get('/login', function (req, res, next) {
@@ -71,7 +71,9 @@ router.get('/', function (req, res, next) {
 
     log.info('no cookie or invalid cookie, force login');
     const app = _.defaultTo(dest, '').split('/')[1];
-    res.redirect(createLoginUrl(app, createRedirectUrl(proto, host, dest)));
+    const url = createLoginUrl(app, createRedirectUrl(proto, host, dest));
+    log.debug('login-page url', url);
+    res.redirect(url);
 
   } catch (err) {
     log.error(`error checking for cookie ${err.stack}`);
