@@ -42,7 +42,7 @@ module.exports = class Server {
     this.app.set('json spaces', 2);
 
     // serve login page
-    this.app.use('/auth/login-page', express.static(path.join(__dirname, '..', 'dist')));
+    this.app.use('/login-page', express.static(path.join(__dirname, '..', 'dist')));
 
     // setup routes
     this.app.use('/', routes);

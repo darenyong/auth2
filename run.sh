@@ -2,10 +2,11 @@
 docker stop auth
 docker rm auth
 # -l "traefik.frontend.rule=Host:darenyong.com,www.darenyong.com;PathPrefixStrip:/auth" \
+# -l "traefik.frontend.rule=Host:darenyong.com,www.darenyong.com;" \
 
 docker run -d --name auth \
   -l "traefik.backend=auth" \
-  -l "traefik.frontend.rule=Host:darenyong.com,www.darenyong.com;" \
+  -l "traefik.frontend.rule=Host:darenyong.com,www.darenyong.com;PathPrefixStrip:/auth" \
   -l "traefik.enable=true" \
   -l "traefik.port=8080" \
   --network proxy \
