@@ -13,6 +13,7 @@ const sayHello = async () => {
   await sleep(2000);
   document.body.appendChild(createMsg(_.join(['Hello', 'webpack'], ' ')));
   const obj = queryString.parse(location.search);
+  console.log('obj', obj);
   document.body.appendChild(createMsg(obj.app));
   document.body.appendChild(createMsg(obj.redirect));
 };
