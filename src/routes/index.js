@@ -34,7 +34,7 @@ router.get('/login', function (req, res, next) {
 
   // TODO: connect to mongo, check if db exists, check user & password, set-cookie with signed JWT with roles
 
-  res.send(`login database ${parsed.app} redirect: ${parsed.redirect}`);
+  res.send(`login database: ${parsed.app} redirect: ${parsed.redirect}`);
 });
 
 // home page - all auth requests land here
