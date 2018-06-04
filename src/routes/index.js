@@ -49,7 +49,8 @@ router.get('/', function (req, res, next) {
 
     if (!dest || _.isString(dest) && (dest === '/' || dest.startsWith('/auth'))) {
       log.info(`bypass security for url ${dest}`);
-      res.send('bypass'); // bypass security for any request to /auth...
+      // res.status(200);
+      res.send('ok'); // bypass security for any request to /auth...
       return;
     }
 
