@@ -27,7 +27,7 @@ const createRedirectUrl = (proto, host, url) => encodeURIComponent(`${proto}://$
 const createLoginUrl = (proto, host, app, redirect) => `${proto}://${host}/auth/login-page`;
 
 
-router.get('/auth/login', function (req, res, next) {
+router.get('/login', function (req, res, next) {
   const queryPart = req.originalUrl.substring(req.originalUrl.indexOf('?') + 1);
   const parsed = querystring.parse(queryPart);
 
