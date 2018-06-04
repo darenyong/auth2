@@ -23,7 +23,7 @@ const setCookie = (res, token) => {
 };
 
 const createRedirectUrl = (proto, host, url) => encodeURIComponent(`${proto}://${host}${url}`);
-const createLoginUrl = (proto, host, app, redirect) => `${proto}://${host}/auth/login-page?app=${app}&redirect=${redirect}`;
+const createLoginUrl = (proto, host, app, redirect) => `${proto}://${host}/auth/login-page/?app=${app}&redirect=${redirect}`;
 
 router.get('/login', function (req, res, next) {
   const queryPart = req.originalUrl.substring(req.originalUrl.indexOf('?') + 1);
@@ -37,7 +37,7 @@ router.get('/login', function (req, res, next) {
   res.send('login');
 });
 
-// home page - all auth requests land here.  WARNING: /auth prefix is stripped from x-forwarded-uri
+// home page - all auth requests land here
 router.get('/', function (req, res, next) {
   try {
     const proto = req.get('x-forwarded-proto'); // http

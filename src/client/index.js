@@ -7,5 +7,7 @@ import 'assets/favicon.png';
 
 document.addEventListener('DOMContentLoaded', async () => {
   console.log('doc ready');
+  console.log('loc', location.search);
+  console.log('doc loc', document.location.search);
   sayHello()
 });
