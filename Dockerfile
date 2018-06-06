@@ -7,7 +7,9 @@ WORKDIR /usr/src/app
 
 COPY package*.json ./
 
-RUN npm install --only=production
+# we cannot use --only=production until we start using build stages in a newer version of docker
+# RUN npm install --only=production
+RUN npm install
 
 COPY . .
 RUN npm run build-prod

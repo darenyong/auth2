@@ -6,6 +6,9 @@ import queryString from 'qs';
 import sayHello from 'say-hello';
 import 'assets/index.html';
 import 'assets/favicon.png';
+import 'assets/pool.jpg';
+import 'styles/app.scss';
+
 
 function createMsg(msg) {
   const element = document.createElement('div');

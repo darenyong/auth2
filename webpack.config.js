@@ -24,10 +24,10 @@ module.exports = {
       //   test: /\.css$/,
       //   use: ['style-loader', 'css-loader'],
       // },
-      // {
-      //   test: /\.scss$/,
-      //   use: ['style-loader', 'css-loader', 'sass-loader'],
-      // },
+      {
+        test: /\.scss$/,
+        use: ['style-loader', 'css-loader', 'sass-loader'],
+      },
       // {
       //   test: /\.(ttf|eot|svg|woff|png|woff2)(\?[a-z0-9]+)?$/, // fonts files
       //   loader: 'url-loader?name=[path][name].[ext]',
