@@ -37,7 +37,7 @@ module.exports = {
         loader: 'file-loader?name=[name].[ext]',
       },
       {
-        test: /\.(png)$/, // copy favicon.png to dist
+        test: /\.(png|jpg)$/, // copy favicon.png and other images to dist/assets
         loader: 'file-loader?name=assets/[name].[ext]',
       },
     ],
