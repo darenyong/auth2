@@ -16,6 +16,8 @@
     "lodash": "^4.17.5",
     "moment-timezone": "^0.5.14",
     "qs": "^6.5.2",
+    "react": "^16.4.0",
+    "react-dom": "^16.4.0",
     "winston": "^3.0.0-rc6",
     "winston-daily-rotate-file": "^3.2.1"
   },

@@ -39,7 +39,6 @@ module.exports = class Server {
     this.listenPort = listenPort;
     this.app = express();
     this.app.use(cookieParser());
-    this.app.set('json spaces', 2);
 
     // serve login page
     this.app.use('/login-page', express.static(path.join(__dirname, '..', 'dist')));
